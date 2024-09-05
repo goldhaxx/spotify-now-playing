@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  images: {
-    domains: ['i.scdn.co'], // Add Spotify's image domain
+  // ... other configs
+  env: {
+    NEXTAUTH_URL: 'https://spotify-now-playing-three-rho.vercel.app',
   },
 }
 
