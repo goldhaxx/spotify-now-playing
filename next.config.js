@@ -1,8 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ... other configs
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.scdn.co',
+      },
+    ],
+  },
   env: {
-    NEXTAUTH_URL: 'https://spotify-now-playing-three-rho.vercel.app',
+    NEXTAUTH_URL: process.env.NODE_ENV === 'production'
+      ? 'https://spotify-now-playing-three-rho.vercel.app'
+      : 'http://localhost:3000',
   },
 }
 
