@@ -148,9 +148,9 @@ export default function NowPlaying() {
 
   return (
     <>
-      <Button onClick={() => fetchNowPlaying(true)} className="mb-4">
+{/*       <Button onClick={() => fetchNowPlaying(true)} className="mb-4">
         <RefreshCw className="mr-2 h-4 w-4" /> Refresh
-      </Button>
+      </Button> */}
       {isLoading ? (
         <LoadingSkeleton />
       ) : (
