@@ -66,7 +66,7 @@ export default function NowPlaying() {
       }
 
       fetchNowPlaying()
-      const interval = setInterval(fetchNowPlaying, 30000) // Update every 30 seconds
+      const interval = setInterval(fetchNowPlaying, 5000) // Update every 5 seconds
 
       return () => clearInterval(interval)
     }
