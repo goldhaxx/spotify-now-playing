@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "./api/auth/[...nextauth]/route"
+import { authOptions } from "./api/auth/[...nextauth]/options"
 import NowPlaying from "@/components/NowPlaying"
 
 export default async function Home() {

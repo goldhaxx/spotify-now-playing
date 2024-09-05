@@ -1,9 +1,10 @@
 "use client"
 
-import { useSession } from "next-auth/react"
+import { useSession, signIn } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { SpotifyApi, Track, AudioFeatures as AudioFeaturesType } from "@spotify/web-api-ts-sdk"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import TrackDetails from "./TrackDetails"
 import AudioFeatures from "./AudioFeatures"
 import Image from 'next/image'
@@ -54,7 +55,7 @@ export default function NowPlaying() {
           setError(null)
         } catch (error) {
           console.error("Error fetching now playing:", error)
-          setError("Failed to fetch currently playing track")
+          setError("Failed to fetch currently playing track. You may need to re-authenticate.")
           setTrack(null)
           setTrackDetails(null)
           setAudioFeatures(null)
@@ -77,7 +78,12 @@ export default function NowPlaying() {
   }
 
   if (error) {
-    return <div>{error}</div>
+    return (
+      <div>
+        <p>{error}</p>
+        <Button onClick={() => signIn("spotify")}>Re-authenticate with Spotify</Button>
+      </div>
+    )
   }
 
   if (!track) {
