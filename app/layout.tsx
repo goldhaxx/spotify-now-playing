@@ -31,7 +31,7 @@ export default async function RootLayout({
               <header className="p-4 flex justify-end">
                 <ModeToggle />
               </header>
-              <main className="flex-grow">
+              <main className="flex-grow px-4">
                 {children}
               </main>
             </div>

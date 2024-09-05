@@ -94,9 +94,9 @@ export default function NowPlaying() {
   }
 
   return (
-    <div className="flex space-x-4">
+    <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
       <div className="space-y-4">
-        <Card className="w-[350px]">
+        <Card className="w-full md:w-[350px]">
           <CardHeader>
             <CardTitle>Now Playing</CardTitle>
             <CardDescription>Your current Spotify track</CardDescription>
