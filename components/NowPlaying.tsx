@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import TrackDetails from "./TrackDetails"
 import AudioFeatures from "./AudioFeatures"
 import Image from 'next/image'
+import GenresCard from "./GenresCard"
 
 // Add this type declaration at the top of your file
 declare module "next-auth" {
@@ -23,10 +24,11 @@ export default function NowPlaying() {
   const [trackDetails, setTrackDetails] = useState<Track | null>(null)
   const [audioFeatures, setAudioFeatures] = useState<AudioFeaturesType | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [spotify, setSpotify] = useState<SpotifyApi | null>(null)
 
   useEffect(() => {
     if (status === "authenticated" && session?.accessToken) {
-      const spotify = SpotifyApi.withAccessToken(
+      const spotifyApi = SpotifyApi.withAccessToken(
         process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID as string,
         {
           access_token: session.accessToken as string,
@@ -35,17 +37,18 @@ export default function NowPlaying() {
           refresh_token: session.refreshToken as string
         }
       )
+      setSpotify(spotifyApi)
       
       const fetchNowPlaying = async () => {
         try {
-          const response = await spotify.player.getCurrentlyPlayingTrack()
-          if (response && response.item && response.item.type === 'track') {
+          const response = await spotify?.player.getCurrentlyPlayingTrack() ?? null
+          if (response?.item?.type === 'track') {
             setTrack(response.item as Track)
             // Fetch additional track details
-            const details = await spotify.tracks.get(response.item.id)
+            const details = await spotify?.tracks.get(response.item.id) ?? null
             setTrackDetails(details)
             // Fetch audio features
-            const features = await spotify.tracks.audioFeatures(response.item.id)
+            const features = await spotify?.tracks.audioFeatures(response.item.id) ?? null
             setAudioFeatures(features)
           } else {
             setTrack(null)
@@ -112,8 +115,9 @@ export default function NowPlaying() {
         </Card>
         {trackDetails && <TrackDetails track={trackDetails} />}
       </div>
-      <div>
+      <div className="space-y-4">
         {audioFeatures && <AudioFeatures features={audioFeatures} />}
+        <GenresCard spotify={spotify} currentTrack={track} />
       </div>
     </div>
   )
