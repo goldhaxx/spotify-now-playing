@@ -22,7 +22,7 @@ export default function TrackDetails({ track }: { track: Track }) {
               <HoverCardContent className="w-80">
                 <p>
                   The popularity of a track is a value between 0 and 100, with 100 being the most popular. 
-                  It's calculated by algorithm based on the total number of plays and how recent those plays are. 
+                  It&apos;s calculated by algorithm based on the total number of plays and how recent those plays are. 
                   Songs being played a lot now will have higher popularity than songs played a lot in the past. 
                   Note: This value may lag actual popularity by a few days.
                 </p>
