@@ -5,6 +5,7 @@ import { authOptions } from "./api/auth/[...nextauth]/options"
 import SessionProvider from "@/components/SessionProvider"
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { ModeToggle } from "@/components/ModeToggle"
+import { PageLoadProgressBar } from "@/components/PageLoadProgressBar"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,6 +26,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <SessionProvider session={session}>
+            <PageLoadProgressBar />
             <div className="min-h-screen flex flex-col">
               <header className="p-4 flex justify-end">
                 <ModeToggle />
