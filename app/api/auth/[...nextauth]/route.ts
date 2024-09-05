@@ -1,5 +1,8 @@
 import NextAuth from "next-auth"
 import SpotifyProvider from "next-auth/providers/spotify"
+import { JWT } from "next-auth/jwt"
+import { Account } from "next-auth"
+import { Session } from "next-auth"
 
 export const authOptions = {
   providers: [
@@ -14,7 +17,7 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account }: { token: JWT; account: Account | null }) {
       if (account) {
         token.accessToken = account.access_token
         token.refreshToken = account.refresh_token
@@ -22,7 +25,7 @@ export const authOptions = {
       }
       return token
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session, token: JWT }) {
       session.accessToken = token.accessToken as string
       return session
     },

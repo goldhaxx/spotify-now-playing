@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Track } from "@spotify/web-api-ts-sdk"
 
-export default function TrackDetails({ track }: { track: any }) {
+export default function TrackDetails({ track }: { track: Track }) {
   return (
     <Card className="w-[350px]">
       <CardHeader>

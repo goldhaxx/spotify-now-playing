@@ -1,7 +1,8 @@
+import { AudioFeatures as AudioFeaturesType } from "@spotify/web-api-ts-sdk"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 type AudioFeaturesProps = {
-  features: SpotifyApi.AudioFeaturesObject
+  features: AudioFeaturesType
 }
 
 export default function AudioFeatures({ features }: AudioFeaturesProps) {

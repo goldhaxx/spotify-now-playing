@@ -2,30 +2,44 @@
 
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
-import { SpotifyApi } from "@spotify/web-api-ts-sdk"
+import { SpotifyApi, Track, AudioFeatures as AudioFeaturesType } from "@spotify/web-api-ts-sdk"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import TrackDetails from "./TrackDetails"
 import AudioFeatures from "./AudioFeatures"
+import Image from 'next/image'
+
+// Add this type declaration at the top of your file
+declare module "next-auth" {
+  interface Session {
+    accessToken?: string
+    refreshToken?: string
+  }
+}
 
 export default function NowPlaying() {
   const { data: session, status } = useSession()
-  const [track, setTrack] = useState<any>(null)
-  const [trackDetails, setTrackDetails] = useState<any>(null)
-  const [audioFeatures, setAudioFeatures] = useState<any>(null)
+  const [track, setTrack] = useState<Track | null>(null)
+  const [trackDetails, setTrackDetails] = useState<Track | null>(null)
+  const [audioFeatures, setAudioFeatures] = useState<AudioFeaturesType | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (status === "authenticated" && session?.accessToken) {
       const spotify = SpotifyApi.withAccessToken(
         process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID as string,
-        { access_token: session.accessToken as string, token_type: "Bearer", expires_in: 3600 }
+        {
+          access_token: session.accessToken as string,
+          token_type: "Bearer",
+          expires_in: 3600, // Adjust this value based on your token's expiration
+          refresh_token: session.refreshToken as string
+        }
       )
       
       const fetchNowPlaying = async () => {
         try {
           const response = await spotify.player.getCurrentlyPlayingTrack()
-          if (response && response.item) {
-            setTrack(response.item)
+          if (response && response.item && response.item.type === 'track') {
+            setTrack(response.item as Track)
             // Fetch additional track details
             const details = await spotify.tracks.get(response.item.id)
             setTrackDetails(details)
@@ -80,10 +94,12 @@ export default function NowPlaying() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-4">
-              <img src={track.album.images[0].url} alt={track.name} className="w-16 h-16 rounded" />
+              {track && track.album.images[0] && (
+                <Image src={track.album.images[0].url} alt={track.name} width={64} height={64} className="rounded" />
+              )}
               <div>
-                <p className="font-semibold">{track.name}</p>
-                <p className="text-sm text-gray-500">{track.artists.map((a: any) => a.name).join(", ")}</p>
+                <p className="font-semibold">{track?.name}</p>
+                <p className="text-sm text-gray-500">{track?.artists.map((a) => a.name).join(", ")}</p>
               </div>
             </div>
           </CardContent>
