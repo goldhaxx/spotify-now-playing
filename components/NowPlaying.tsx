@@ -31,7 +31,7 @@ export default function NowPlaying() {
         {
           access_token: session.accessToken as string,
           token_type: "Bearer",
-          expires_in: 3600, // Adjust this value based on your token's expiration
+          expires_in: 2592000, // Adjust this value based on your token's expiration
           refresh_token: session.refreshToken as string
         }
       )
