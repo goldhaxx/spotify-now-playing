@@ -33,9 +33,9 @@ const fetchWithRetry = async <T,>(fn: () => Promise<T>, retries = 3): Promise<T>
   }
 };
 
-export default function NowPlaying() {
+export default function NowPlaying({ onTrackChange }: { onTrackChange: (track: SpotifyApi.TrackObjectFull | null) => void }) {
   const { data: session, status } = useSession()
-  const [track, setTrack] = useState<Track | null>(null)
+  const [track, setTrack] = useState<SpotifyApi.TrackObjectFull | null>(null)
   const [trackDetails, setTrackDetails] = useState<Track | null>(null)
   const [audioFeatures, setAudioFeatures] = useState<AudioFeaturesType | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -55,7 +55,7 @@ export default function NowPlaying() {
       try {
         const response = await fetchWithRetry(() => spotify.player.getCurrentlyPlayingTrack())
         if (response?.item?.type === 'track') {
-          const newTrack = response.item as Track
+          const newTrack = response.item as SpotifyApi.TrackObjectFull
           setTrack(newTrack)
           
           // Fetch track details, audio features, and artist genres in a single batch request
@@ -128,6 +128,17 @@ export default function NowPlaying() {
       document.removeEventListener("visibilitychange", handleVisibilityChange)
     }
   }, [fetchNowPlaying])
+
+  useEffect(() => {
+    fetchNowPlaying();
+  }, []);
+
+  useEffect(() => {
+    if (track) {
+      console.log("Now playing track:", track.name, "by", track.artists.map(a => a.name).join(", "));
+      onTrackChange(track);
+    }
+  }, [track, onTrackChange]);
 
   if (status === "loading") {
     return <div>Loading...</div>
