@@ -7,6 +7,8 @@ import {
   DotFilledIcon,
 } from "@radix-ui/react-icons"
 import * as MenubarPrimitive from "@radix-ui/react-menubar"
+import { useSession, signOut } from "next-auth/react"
+import { LogOut } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -129,6 +131,20 @@ const MenubarItem = React.forwardRef<
 ))
 MenubarItem.displayName = MenubarPrimitive.Item.displayName
 
+// Add this new component
+const LogoutMenuItem = () => {
+  const { data: session } = useSession()
+
+  if (!session) return null
+
+  return (
+    <MenubarItem onSelect={() => signOut({ callbackUrl: '/' })}>
+      <LogOut className="mr-2 h-4 w-4" />
+      <span>Logout</span>
+    </MenubarItem>
+  )
+}
+
 const MenubarCheckboxItem = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.CheckboxItem>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.CheckboxItem>
@@ -237,4 +253,5 @@ export {
   MenubarGroup,
   MenubarSub,
   MenubarShortcut,
+  LogoutMenuItem,
 }
