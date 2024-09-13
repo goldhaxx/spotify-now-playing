@@ -96,7 +96,7 @@ export function LyricsCard({ trackName, artistName }: LyricsCardProps) {
   }, [trackName, artistName]);
 
   return (
-    <Card className="w-full md:w-[350px]">
+    <Card className="w-[350px]">
       <CardHeader>
         <CardTitle>Lyrics</CardTitle>
       </CardHeader>

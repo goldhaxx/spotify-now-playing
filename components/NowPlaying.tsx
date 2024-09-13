@@ -159,7 +159,7 @@ export default function NowPlaying({ onTrackChange }: { onTrackChange: (track: S
 
   return (
     <>
-{/*       <Button onClick={() => fetchNowPlaying(true)} className="mb-4">
+      {/*       <Button onClick={() => fetchNowPlaying(true)} className="mb-4">
         <RefreshCw className="mr-2 h-4 w-4" /> Refresh
       </Button> */}
       {isLoading ? (
@@ -167,7 +167,7 @@ export default function NowPlaying({ onTrackChange }: { onTrackChange: (track: S
       ) : (
         <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
           <div className="space-y-4">
-            <Card className="w-full md:w-[350px]">
+            <Card className="w-[350px]">
               <CardHeader>
                 <CardTitle>Now Playing</CardTitle>
                 <CardDescription>Your current Spotify track</CardDescription>
