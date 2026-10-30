@@ -20,7 +20,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.438.0",
-    "next": "14.2.8",
+    "next": "14.2.35",
     "next-auth": "^4.24.7",
     "next-themes": "^0.3.0",
     "react": "^18",
@@ -35,9 +35,12 @@
     "@types/spotify-api": "^0.0.25",
     "autoprefixer": "^10.4.20",
     "eslint": "^8",
-    "eslint-config-next": "14.2.8",
+    "eslint-config-next": "14.2.35",
     "postcss": "^8.4.45",
     "tailwindcss": "^3.4.11",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": "24.x"
   }
 }
